@@ -50,13 +50,6 @@ def create_app():
 
     return app
 
-# Serve model
-
-
-def serve():
-    app = create_app()
-    app.run()
-
 
 if __name__ == '__main__':
 
