@@ -52,8 +52,8 @@ class PlantCNNProxy(object):
         'Tomato : Healty'
     ]
 
-    def __init__(self, model_path):
-        self.model_server = model_path
+    def __init__(self, model_uri):
+        self.model_uri = model_uri
 
     # Set categories
     def load_categories(self, categories):
@@ -72,7 +72,7 @@ class PlantCNNProxy(object):
             "instances": [{'input_image': normalized.tolist()}]
         }
 
-        response = requests.post(self.model_server, json=payload)
+        response = requests.post(self.model_uri, json=payload)
 
         result = json.loads(response.content.decode('utf-8'))
         return self.categories[np.argmax(result[0])]

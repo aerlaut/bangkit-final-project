@@ -8,14 +8,14 @@ from model import PlantCNNProxy
 load_dotenv('.env')
 
 # Set default model path, if not exist in .env
-MODEL_PATH = os.getenv('MODEL_PATH') if os.getenv(
-    'MODEL_PATH') != "" else "saved"
+MODEL_PATH = os.getenv('MODEL_URI') if os.getenv(
+    'MODEL_URI') != "" else "saved"
 
 
 def create_app():
     app = Flask(__name__)
 
-    model = new PlatnCNNProxy(os.getenv('MODEL_PATH'))
+    model = PlantCNNProxy(os.getenv('MODEL_URI'))
 
     # Front page
     @app.route('/')
