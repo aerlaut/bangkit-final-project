@@ -62,17 +62,14 @@ class PlantCNNProxy(object):
     # Predict one input image file
     def predict(self, img_path):
         IM = tf.keras.preprocessing.image
-        size = 300
-
-        img = IM.load_img(img_path, target_size=(size, size))
-        img_array = IM.img_to_array(img)
-        normalized = np.expand_dims(img, axis=0) / 255
+        img = IM.img_to_array(IM.load_img(
+            img_path, target_size=(300, 300))) / 255.
 
         payload = {
-            "instances": [{'input_image': normalized.tolist()}]
+            "instances": [{'input_1': img.tolist()}]
         }
 
         response = requests.post(self.model_uri, json=payload)
 
         result = json.loads(response.content.decode('utf-8'))
-        return self.categories[np.argmax(result[0])]
+        return self.categories[np.argmax(result['predictions'][0])]

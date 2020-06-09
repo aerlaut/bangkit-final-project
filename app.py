@@ -1,5 +1,6 @@
 import json
 import os
+import requests
 
 from dotenv import load_dotenv
 from flask import Flask, render_template, url_for, request
@@ -27,26 +28,25 @@ def create_app():
     @app.route('/', methods=['POST'])
     def predict():
 
-        img = request.files.get('img', None)
-        if img is None:
-            # TODO: return error
-            return None
+        if 'img'not in request.files:
+            return {"status": "error", "message": "No file uploaded "}
 
+        img = request.files.get('img', None)
         img_path = os.path.join('./temp/', img.filename)
 
         try:
-            img_path = os.path.join('./temp/', img.filename)
             img.save(img_path)
-
-            result = model.predict(img_path)
-
-            # Clean up - delete image
-            os.remove(img_path)
-
         except FileNotFoundError:
-            pass
+            return {"status": "error", "message": "File upload failed"}
 
-        return json.dumps(result)
+        result = model.predict(img_path)
+
+        # Clean up - delete image
+        os.remove(img_path)
+        return {
+            "status": "success",
+            "message": result
+        }
 
     return app
 
