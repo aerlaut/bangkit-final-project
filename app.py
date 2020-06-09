@@ -1,7 +1,9 @@
+import json
+import os
+
 from dotenv import load_dotenv
 from flask import Flask, render_template, url_for, request
-from model import PlantCNNModel
-import os
+from model import PlantCNNProxy
 
 load_dotenv('.env')
 
@@ -13,8 +15,7 @@ MODEL_PATH = os.getenv('MODEL_PATH') if os.getenv(
 def create_app():
     app = Flask(__name__)
 
-    # Initialize model
-    model = PlantCNNModel(os.getenv('MODEL_PATH'))
+    model = new PlatnCNNProxy(os.getenv('MODEL_PATH'))
 
     # Front page
     @app.route('/')
@@ -27,22 +28,25 @@ def create_app():
     def predict():
 
         img = request.files.get('img', None)
-        if img is not None:
+        if img is None:
+            # TODO: return error
+            return None
+
+        img_path = os.path.join('./temp/', img.filename)
+
+        try:
             img_path = os.path.join('./temp/', img.filename)
+            img.save(img_path)
 
-            try:
-                img_path = os.path.join('./temp/', img.filename)
-                img.save(img_path)
+            result = model.predict(img_path)
 
-                result = model.predict(img_path)
+            # Clean up - delete image
+            os.remove(img_path)
 
-                # Clean up - delete image
-                os.remove(img_path)
+        except FileNotFoundError:
+            pass
 
-            except FileNotFoundError:
-                pass
-
-        return result
+        return json.dumps(result)
 
     return app
 

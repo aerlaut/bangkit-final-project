@@ -1,12 +1,15 @@
 import tensorflow as tf
 import numpy as np
+import requests
+import json
+
 from pathlib import Path
 
 # Class based on https://github.com/phoenixfin/general-cnn/blob/master/cnn.py
 # optimized for Plant CNN deployment
 
 
-class PlantCNNModel(object):
+class PlantCNNProxy(object):
 
     categories = [
         'Apple : Scab',
@@ -50,7 +53,7 @@ class PlantCNNModel(object):
     ]
 
     def __init__(self, model_path):
-        self.model = tf.keras.models.load_model(model_path)
+        self.model_server = model_path
 
     # Set categories
     def load_categories(self, categories):
@@ -63,6 +66,13 @@ class PlantCNNModel(object):
 
         img = IM.load_img(img_path, target_size=(size, size))
         img_array = IM.img_to_array(img)
-        normalized = np.expand_dims(img, axis=0)/255
-        res = self.model.predict(normalized)
-        return self.categories[np.argmax(res[0])]
+        normalized = np.expand_dims(img, axis=0) / 255
+
+        payload = {
+            "instances": [{'input_image': normalized.tolist()}]
+        }
+
+        response = requests.post(self.model_server, json=payload)
+
+        result = json.loads(response.content.decode('utf-8'))
+        return self.categories[np.argmax(result[0])]
