@@ -48,7 +48,7 @@ def create_app():
         # Form submitted, do prediction
         elif request.method == 'POST':
 
-            if 'img'not in request.files:
+            if 'img' not in request.files:
                 return {"status": "error", "message": "No file uploaded "}
 
             img = request.files.get('img', None)
