@@ -1,6 +1,7 @@
 import json
 import os
 import requests
+from datetime import datetime
 
 from dotenv import load_dotenv
 from flask import Flask, render_template, url_for, request
@@ -65,7 +66,10 @@ def create_app():
                 "message": result
             }
 
-        return render_template('index.html', examples=examples, result=result, img_path=IMG_PATH)
+        # Append timestring to force image reload
+        img_path = f"{IMG_PATH}?{datetime.now().strftime('%H%m%s')}"
+
+        return render_template('index.html', examples=examples, result=result, img_path=img_path)
 
     return app
 
