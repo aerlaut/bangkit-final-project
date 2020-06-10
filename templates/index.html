@@ -16,24 +16,30 @@
   <body class="py-4">
     <div class="container mx-auto px-4 mb-4">
       <div>
-        <h1 class="text-2xl mb-4 font-semibold text-center text-green-800">
+        <h1 class="text-2xl mt-8 mb-4 font-semibold text-center text-green-800">
           Crop leaf disease detection
         </h1>
-        <p class="text-center">
-          This application detects disease from 12 types of crops. The disease
-          that can be detected is listed in the table.
-        </p>
       </div>
     </div>
 
     <div class="flex sm:flex-row flex-col mx-auto container">
       <div class="bg-green-100 border-0 rounded flex-1 p-4 mx-4 my-2">
+        <div>
+          <h2 class="text-lg font-semibold">Introduction</h2>
+          <p>
+            This application detects disease from 12 types of crops. The disease
+            that can be detected is listed in the table.
+          </p>
+        </div>
         <div class="my-4">
           <h2 class="text-lg font-semibold">Instructions</h2>
           <ol class="list-decimal pl-4">
             <li>
-              Prepare the leaf image. Images are best if taken against uniform
-              dark/white background.
+              Take a picture of the leaf. Images are best if taken against
+              uniform dark/white background.
+            </li>
+            <li>
+              Prepare the image. Images are best if cropped square.
             </li>
             <li>
               Upload your image
@@ -46,7 +52,7 @@
             enctype="multipart/form-data"
             class="my-4"
           >
-            <label class="block font-semibold mb-2">Upload picture</label>
+            <label class="block font-semibold mb-2">Upload image (.jpg)</label>
             <input
               type="file"
               name="img"

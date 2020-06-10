@@ -4,7 +4,7 @@ import requests
 
 from dotenv import load_dotenv
 from flask import Flask, render_template, url_for, request
-from model import PlantCNNProxy
+# from model import PlantCNNProxy
 
 load_dotenv('.env')
 
@@ -16,7 +16,7 @@ MODEL_PATH = os.getenv('MODEL_URI') if os.getenv(
 def create_app():
     app = Flask(__name__)
 
-    model = PlantCNNProxy(os.getenv('MODEL_URI'))
+    # model = PlantCNNProxy(os.getenv('MODEL_URI'))
 
     # Front page
     @app.route('/')
