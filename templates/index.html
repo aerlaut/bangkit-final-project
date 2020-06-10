@@ -11,13 +11,13 @@
       href="{{ url_for('static', filename='style.css') }}"
       rel="stylesheet"
     />
-    <title>Crop Leaf Disease Recognition</title>
+    <title>Crop Leaf Disease Detection</title>
   </head>
   <body class="py-4">
     <div class="container mx-auto px-4 mb-4">
       <div>
-        <h1 class="text-2xl mt-8 mb-4 font-semibold text-center text-green-800">
-          Crop leaf disease detection
+        <h1 class="text-3xl mt-8 mb-4 font-bold text-center text-green-800">
+          Crop Leaf Disease Detection
         </h1>
       </div>
     </div>
@@ -35,7 +35,7 @@
           <h2 class="text-lg font-semibold">Instructions</h2>
           <ol class="list-decimal pl-4">
             <li>
-              Take a picture of the leaf. Images are best if taken against
+              Take a picture of a diseased leaf. Images are best if taken against
               uniform dark/white background.
             </li>
             <li>
@@ -65,6 +65,27 @@
               Submit
             </button>
           </form>
+
+          {% if result != None %}
+          <div id="result" class="border-rounded bg-yellow-100 rounded clearfix p-2 my-4">
+            {% if result['status'] == 'success' %}
+            {% set plant = result['message'] %}
+            <h2 class="text-lg font-semibold inline-block">Result</h2>
+            <p>
+              Our analysis shows that your plant is 
+                <a href="{{ plant['plant_info'] }}" class="underline text-blue-600">{{ plant['plant'] }}</a>
+              {% if plant['status'] != 'healthy' %}
+                and it is afflicted by <a href="{{ plant['disease_info'] }}" class="underline text-blue-600">{{ plant['status'] }}</a>
+              {% else %}
+                and it is healthy.
+              {% endif %}
+              <img src="{{ img_path }}" width="150" class="float-right">
+            </p>
+            {% else %}
+            <p>Error : {{ result['message'] }}</p>
+            {% endif %}
+          </div>
+          {% endif %}
         </div>
 
         <div id="examples" class="clearfix mt-8">
@@ -110,7 +131,7 @@
             <td class="border border-gray-400 px-4 py-2">Cedar apple rust</td>
           </tr>
           <tr>
-            <td class="border border-gray-400 px-4 py-2">Frogeye spot</td>
+            <td class="border border-gray-400 px-4 py-2">Black rot</td>
           </tr>
           <tr>
             <td class="border border-gray-400 px-4 py-2">Scab</td>
@@ -124,11 +145,8 @@
             <td class="border border-gray-400 px-4 py-2">Powdery mildew</td>
           </tr>
           <tr>
-            <td rowspan="2" class="border border-gray-400 px-4 py-2">Citrus</td>
-            <td class="border border-gray-400 px-4 py-2">Greening June</td>
-          </tr>
-          <tr>
-            <td class="border border-gray-400 px-4 py-2">Greening Oct</td>
+            <td class="border border-gray-400 px-4 py-2">Citrus</td>
+            <td class="border border-gray-400 px-4 py-2">Citrus greening</td>
           </tr>
           <tr>
             <td rowspan="3" class="border border-gray-400 px-4 py-2">Grape</td>
@@ -147,14 +165,9 @@
             <td class="border border-gray-400 px-4 py-2">Bacterial spot</td>
           </tr>
           <tr>
-            <td rowspan="2" class="border border-gray-400 px-4 py-2">Pepper</td>
+            <td class="border border-gray-400 px-4 py-2">Bell Pepper</td>
             <td class="border border-gray-400 px-4 py-2">
               Bacterial spot NREC
-            </td>
-          </tr>
-          <tr>
-            <td class="border border-gray-400 px-4 py-2">
-              Bacterial spot JR
             </td>
           </tr>
           <tr>
@@ -162,7 +175,7 @@
             <td class="border border-gray-400 px-4 py-2">
               Early blight fungus
             </td>
-          </tr>
+          </>
           <tr>
             <td class="border border-gray-400 px-4 py-2">
               Late blight fungus
@@ -206,7 +219,7 @@
           </tr>
           <tr>
             <td class="border border-gray-400 px-4 py-2">
-              Spider mite damage insect
+              Spider mite damage
             </td>
           </tr>
           <tr>
@@ -216,7 +229,7 @@
           </tr>
           <tr>
             <td class="border border-gray-400 px-4 py-2">
-              YLCV virus
+              Yellow leaf curl virus
             </td>
           </tr>
         </table>

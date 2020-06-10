@@ -4,7 +4,7 @@ import requests
 
 from dotenv import load_dotenv
 from flask import Flask, render_template, url_for, request
-# from model import PlantCNNProxy
+from model import PlantCNNProxy
 
 load_dotenv('.env')
 
@@ -16,11 +16,13 @@ MODEL_PATH = os.getenv('MODEL_URI') if os.getenv(
 def create_app():
     app = Flask(__name__)
 
-    # model = PlantCNNProxy(os.getenv('MODEL_URI'))
+    model = PlantCNNProxy(os.getenv('MODEL_URI'))
 
     # Front page
-    @app.route('/')
+    @app.route('/', methods=['GET', 'POST'])
     def index():
+
+        # Define examples dict
         examples = {
             'Apple Cedar Rust': 'example_img/apple_cedar_rust.jpg',
             'Apple Scab': 'example_img/apple_scab.jpg',
@@ -30,31 +32,40 @@ def create_app():
             'Tomato Yellow Curl': 'example_img/tomato_yellow_curl_virus.jpg',
         }
 
-        return render_template('index.html', examples=examples)
+        result = None
 
-    # Return prediction
-    @app.route('/', methods=['POST'])
-    def predict():
+        # If previous image exists, delete image
+        IMG_PATH = os.path.join('static/temp/input.jpg')
+        img = None
 
-        if 'img'not in request.files:
-            return {"status": "error", "message": "No file uploaded "}
+        if os.path.isfile(IMG_PATH):
+            os.remove(IMG_PATH)
+            img = None
 
-        img = request.files.get('img', None)
-        img_path = os.path.join('./temp/', img.filename)
+        if request.method not in ['POST', 'GET']:
+            return '404 Not found'
 
-        try:
-            img.save(img_path)
-        except FileNotFoundError:
-            return {"status": "error", "message": "File upload failed"}
+        # Form submitted, do prediction
+        elif request.method == 'POST':
 
-        result = model.predict(img_path)
+            if 'img'not in request.files:
+                return {"status": "error", "message": "No file uploaded "}
 
-        # Clean up - delete image
-        os.remove(img_path)
-        return {
-            "status": "success",
-            "message": result
-        }
+            img = request.files.get('img', None)
+
+            try:
+                img.save(IMG_PATH)
+            except FileNotFoundError:
+                return {"status": "error", "message": "File upload failed"}
+
+            result = model.predict(IMG_PATH)
+
+            result = {
+                "status": "success",
+                "message": result
+            }
+
+        return render_template('index.html', examples=examples, result=result, img_path=IMG_PATH)
 
     return app
 
