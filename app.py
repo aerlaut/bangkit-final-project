@@ -21,10 +21,18 @@ def create_app():
     # Front page
     @app.route('/')
     def index():
-        return render_template('index.html')
+        examples = {
+            'Apple Cedar Rust': 'example_img/apple_cedar_rust.jpg',
+            'Apple Scab': 'example_img/apple_scab.jpg',
+            'Corn Common Rust': 'example_img/corn_common_rust.jpg',
+            'Potato Early Blight': 'example_img/potato_early_blight.jpg',
+            'Tomato Early Blight': 'example_img/tomato_early_blight.jpg',
+            'Tomato Yellow Curl': 'example_img/tomato_yellow_curl_virus.jpg',
+        }
+
+        return render_template('index.html', examples=examples)
 
     # Return prediction
-
     @app.route('/', methods=['POST'])
     def predict():
 

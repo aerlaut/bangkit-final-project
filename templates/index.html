@@ -28,16 +28,64 @@
 
     <div class="flex sm:flex-row flex-col mx-auto container">
       <div class="bg-green-100 border-0 rounded flex-1 p-4 mx-4 my-2">
-        <form action="/" method="POST" enctype="multipart/form-data">
-          <label class="block font-semibold mb-4">Upload picture</label>
-          <input type="file" name="img" class="block my-4" />
-          <button
-            type="submit"
-            class="bg-red-600 p-1 my-4 text-white border rounded px-4 font-semibold border-0"
+        <div class="my-4">
+          <h2 class="text-lg font-semibold">Instructions</h2>
+          <ol class="list-decimal pl-4">
+            <li>
+              Prepare the leaf image. Images are best if taken against uniform
+              dark/white background.
+            </li>
+            <li>
+              Upload your image
+            </li>
+          </ol>
+
+          <form
+            action="/"
+            method="POST"
+            enctype="multipart/form-data"
+            class="my-4"
           >
-            Detect
-          </button>
-        </form>
+            <label class="block font-semibold mb-2">Upload picture</label>
+            <input
+              type="file"
+              name="img"
+              class="inline-block border-solid border border-solid border-rounded border-black"
+            />
+            <button
+              type="submit"
+              class="bg-blue-600 p-1 text-white border rounded px-4 font-semibold border-0"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+
+        <div id="examples" class="clearfix mt-8">
+          <span class="block">
+            <h2 class="text-lg font-semibold inline-block">
+              Examples
+            </h2>
+            <a
+              href="{{ url_for('static', filename='example_img.zip') }}"
+              download
+              class="underline text-blue-600"
+              >Download</a
+            >
+          </span>
+
+          {% for label, src in examples.items() %}
+          <div class="float-left mr-3 my-3 text-center bor">
+            <img
+              src="{{ url_for('static', filename=src) }}"
+              alt="{{ label }}"
+              class="mb-1"
+              width="150"
+            />
+            <span>{{ label }}</span>
+          </div>
+          {% endfor %}
+        </div>
       </div>
 
       <div class="bg-green-100 border-0 rounded flex-initial mx-4 my-2 p-2">
