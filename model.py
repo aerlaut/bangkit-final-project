@@ -263,4 +263,7 @@ class PlantCNNProxy(object):
             'plant_info': 'https://en.wikipedia.org/wiki/Tomato',
             'disease_info': None
         },
+        {
+            'plant': 'not_leaf',
+        },
     ]

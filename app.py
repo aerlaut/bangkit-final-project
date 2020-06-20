@@ -61,10 +61,16 @@ def create_app():
 
             result = model.predict(IMG_PATH)
 
-            result = {
-                "status": "success",
-                "message": result
-            }
+            if (result['plant'] == 'not_leaf'):
+                result = {
+                    'status': 'not_leaf',
+                    'message': 'Picture is not a leaf'
+                }
+            else:
+                result = {
+                    "status": "success",
+                    "message": result
+                }
 
         # Append timestring to force image reload
         img_path = f"{IMG_PATH}?{datetime.now().strftime('%H%m%s')}"

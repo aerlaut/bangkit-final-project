@@ -35,8 +35,8 @@
           <h2 class="text-lg font-semibold">Instructions</h2>
           <ol class="list-decimal pl-4">
             <li>
-              Take a picture of a diseased leaf. Images are best if taken against
-              uniform dark/white background.
+              Take a picture of a diseased leaf. Images are best if taken
+              against uniform dark/white background.
             </li>
             <li>
               Prepare the image. Images are best if cropped square.
@@ -67,19 +67,33 @@
           </form>
 
           {% if result != None %}
-          <div id="result" class="border-rounded bg-yellow-100 rounded clearfix p-2 my-4">
-            {% if result['status'] == 'success' %}
-            {% set plant = result['message'] %}
+          <div
+            id="result"
+            class="border-rounded bg-yellow-100 rounded clearfix p-2 my-4"
+          >
+            {% if result['status'] == 'success' %} {% set plant =
+            result['message'] %}
             <h2 class="text-lg font-semibold inline-block">Result</h2>
             <p>
-              Our analysis shows that your plant is 
-                <a href="{{ plant['plant_info'] }}" class="underline text-blue-600">{{ plant['plant'] }}</a>
-              {% if plant['status'] != 'healthy' %}
-                and it is afflicted by <a href="{{ plant['disease_info'] }}" class="underline text-blue-600">{{ plant['status'] }}</a>
-              {% else %}
-                and it is healthy.
-              {% endif %}
-              <img src="{{ img_path }}" width="150" class="float-right">
+              Our analysis shows that your plant is
+              <a
+                href="{{ plant['plant_info'] }}"
+                class="underline text-blue-600"
+                >{{ plant['plant'] }}</a
+              >
+              {% if plant['status'] != 'healthy' %} and it is afflicted by
+              <a
+                href="{{ plant['disease_info'] }}"
+                class="underline text-blue-600"
+                >{{ plant['status'] }}</a
+              >
+              {% else %} and it is healthy. {% endif %}
+              <img src="{{ img_path }}" width="150" class="float-right" />
+            </p>
+            {% elif result['status'] == 'not_leaf' %}
+            <p>
+              The picture you provided was not a leaf. Please try another
+              picture.
             </p>
             {% else %}
             <p>Error : {{ result['message'] }}</p>
@@ -175,7 +189,7 @@
             <td class="border border-gray-400 px-4 py-2">
               Early blight fungus
             </td>
-          </>
+          </tr>
           <tr>
             <td class="border border-gray-400 px-4 py-2">
               Late blight fungus
