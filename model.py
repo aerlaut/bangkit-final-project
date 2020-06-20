@@ -126,6 +126,12 @@ class PlantCNNProxy(object):
             'disease_info': None
         },
         {
+            'plant': 'orange',
+            'status': 'citrus greening',
+            'plant_info': 'https://en.wikipedia.org/wiki/Citrus',
+            'disease_info': 'https: // sfyl.ifas.ufl.edu/archive/hot_topics/agriculture/citrus_greening.shtml'
+        },
+        {
             'plant': 'peach',
             'status': 'bacterial spot',
             'plant_info': 'https://en.wikipedia.org/wiki/Peach',
