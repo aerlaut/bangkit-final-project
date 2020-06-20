@@ -73,7 +73,7 @@ def create_app():
                 }
 
         # Append timestring to force image reload
-        img_path = f"{IMG_PATH}?{datetime.now().strftime('%H%m%s')}"
+        img_path = f"{IMG_PATH}?{datetime.now().strftime('%H%M%S')}"
 
         return render_template('index.html', examples=examples, result=result, img_path=img_path)
 
