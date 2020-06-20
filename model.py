@@ -126,12 +126,6 @@ class PlantCNNProxy(object):
             'disease_info': None
         },
         {
-            'plant': 'orange',
-            'status': 'citrus greening',
-            'plant_info': 'https://en.wikipedia.org/wiki/Orange_(fruit)',
-            'disease_info': 'https://en.wikipedia.org/wiki/Citrus_greening_disease'
-        },
-        {
             'plant': 'peach',
             'status': 'bacterial spot',
             'plant_info': 'https://en.wikipedia.org/wiki/Peach',
