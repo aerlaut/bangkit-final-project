@@ -25,7 +25,7 @@ class PlantCNNProxy(object):
             img_path, target_size=(300, 300))) / 255.
 
         payload = {
-            "instances": [{'input_1': img.tolist()}]
+            "instances": [{'input_8': img.tolist()}]
         }
 
         response = requests.post(self.model_uri, json=payload)
