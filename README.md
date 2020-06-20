@@ -35,7 +35,7 @@ To deploy the trained model
 3. [Install tensorflow_model_server](https://www.tensorflow.org/tfx/serving/setup)
 4. Run the model exposing a port
    ```
-   tensorflow_model_server --model_base_path=<path_to_directory> --rest_api_port=5000 --model_name=PlantCNN
+   tensorflow_model_server --model_base_path=<path_to_directory> --rest_api_port=5001 --model_name=PlantCNN
    ```
 
 To deploy the application
@@ -71,7 +71,7 @@ To deploy the application
 4. Create `.env` file at the root of the directory, with the following env variable
 
    ```
-   MODEL_URI="http://localhost:5000/v1/models/PlantCNN:predict"
+   MODEL_URI="http://localhost:5001/v1/models/PlantCNN:predict"
    ```
 
 Change the port and model name according to the values used when setting up the model.
